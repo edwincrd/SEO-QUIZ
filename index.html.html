@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Growth Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            background: #1E1E1E;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+        }
+        .question-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            background: #B8860B;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .options button:hover {
+            background: #d4af37;
+        }
+        #next-btn, #email-section, #submit-btn {
+            display: none;
+        }
+        #email-input {
+            width: 80%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #fff;
+            color: #121212;
+        }
+        #submit-btn {
+            background: #008000;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <img id="question-image" class="question-image" src="" alt="Question Image">
+        <p class="question" id="question-text"></p>
+        <div class="options" id="options-container"></div>
+        <button id="next-btn" onclick="nextQuestion()">Next</button>
+        <div id="email-section">
+            <p>Enter your email to get your personalized SEO results:</p>
+            <input type="email" id="email-input" placeholder="Enter your email" required>
+            <button id="submit-btn" onclick="collectEmail()">Get My Free SEO Strategy</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                question: "What’s your biggest business growth challenge right now?", 
+                image: "https://www.visibility-builder.com/uploads/question1.jpg",
+                options: ["I need more traffic & visibility.", "I get traffic but no leads.", "I have leads but they’re not converting.", "I need AI automation."]
+            },
+            { 
+                question: "How soon do you want to see results?", 
+                image: "https://www.visibility-builder.com/uploads/question2.jpg",
+                options: ["ASAP – I need growth yesterday!", "Within the next 3 months.", "I’m playing the long game (6+ months).", "I’m just exploring my options."]
+            },
+            { 
+                question: "What’s your monthly marketing budget?", 
+                image: "https://www.visibility-builder.com/uploads/question3.jpg",
+                options: ["$500 - $1,000", "$1,000 - $3,000", "$3,000+", "I’m not sure – I need expert guidance."]
+            },
+            { 
+                question: "What’s holding you back from scaling right now?", 
+                image: "https://www.visibility-builder.com/uploads/question4.jpg",
+                options: ["I don’t have the right SEO strategy.", "I don’t have time to handle marketing myself.", "I’ve been burned by bad marketing agencies.", "I don’t know where to start."]
+            }
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            document.getElementById("question-text").innerText = questions[currentQuestion].question;
+            document.getElementById("question-image").src = questions[currentQuestion].image;
+            
+            let optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+            questions[currentQuestion].options.forEach(option => {
+                let button = document.createElement("button");
+                button.innerText = option;
+                button.onclick = nextQuestion;
+                optionsContainer.appendChild(button);
+            });
+
+            document.getElementById("next-btn").style.display = (currentQuestion < questions.length - 1) ? "inline-block" : "none";
+            document.getElementById("email-section").style.display = (currentQuestion === questions.length - 1) ? "block" : "none";
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            }
+        }
+
+        function collectEmail() {
+            let email = document.getElementById("email-input").value;
+            if (!email) {
+                alert("Please enter your email to get your results.");
+                return;
+            }
+
+            // Store email in Google Sheets (Using Zapier or Google Apps Script)
+            fetch("https://script.google.com/macros/s/YOUR_GOOGLE_SCRIPT_ID/exec", {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: email })
+            });
+
+            // Redirect to Consultation Page
+            window.location.href = "https://www.visibility-builder.com/consultation";
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
